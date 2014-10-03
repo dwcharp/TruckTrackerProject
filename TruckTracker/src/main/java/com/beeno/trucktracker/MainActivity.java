@@ -1,6 +1,7 @@
 package com.beeno.trucktracker;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.beeno.trucktracker.amazon.AmazonUtil;
+import com.beeno.trucktracker.amazon.DynamoDBHelper;
+
 public class MainActivity extends ActionBarActivity {
 
     String countries[] = {"US","Africa","UK"};
@@ -23,6 +27,7 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        new InitAmazonAWSTask().execute();
 
         ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.activity_listview,
                 R.id.loading_point_label, countries);
@@ -35,11 +40,11 @@ public class MainActivity extends ActionBarActivity {
                 Intent intent = new Intent(getApplicationContext(), TaskDescriptionActivity.class);
                 CharSequence text = countries[i];
                 Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-                intent.putExtra("E#", "1234");
-                intent.putExtra("B#", "9876");
+                intent.putExtra("bookingNumber", "9876");
                 startActivity(intent);
             }
         });
+
 
     }
 
@@ -64,6 +69,12 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
+    public class InitAmazonAWSTask extends AsyncTask<Void, Void, Void> {
+        public Void doInBackground(Void...voids) {
+            AmazonUtil.setCognitoProvider(getApplicationContext());
+            DynamoDBHelper.initDbClient();
+            return null;
+        }
+    }
 
 }

@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.android.tools.build:gradle:0.12.2'
     }
 }
 apply plugin: 'android'
@@ -14,7 +14,7 @@ repositories {
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.0.0"
+    buildToolsVersion '19.1.0'
 
     defaultConfig {
         minSdkVersion 7
@@ -23,7 +23,12 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:+'
-    compile 'com.android.support:support-v4:18.0.0'
-    compile files('/libs/aws-android-sdk-2.1.1-core-no-third-party.jar')
+    compile 'com.android.support:appcompat-v7:19.0.0'
+    compile 'com.android.support:support-v4:19.0.0'
+    compile files('/libs/aws-android-sdk-2.1.1-core.jar')
+    compile files('/libs/aws-android-sdk-2.1.1-ddb-mapper.jar')
+    compile files('/libs/aws-android-sdk-2.1.1-ddb.jar')
+    compile files('libs/aws-android-sdk-2.1.1-core.jar')
+    compile files('libs/aws-android-sdk-2.1.1-ddb.jar')
+    compile files('libs/aws-android-sdk-2.1.1-ddb-mapper.jar')
 }
