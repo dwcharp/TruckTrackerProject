@@ -4,8 +4,20 @@
     <string name="app_name">TruckTracker</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_task_description">FullscreenActivity</string>
+    <string name="title_activity_task_description">Order Desc</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="title_activity_admin">AdminActivity</string>
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+    <string name="title_activity_admin_tabbed">AdminTabbedActivity</string>
+    <string name="users_fragment">Contol users</string>
+    <string name="task_fragment">Manage Task</string>
+    <string name="admin_fragment">Admin controls</string>
+    <string name="title_activity_create_user">CreateUser</string>
+    <string name="create_User">Create User</string>
+    <string name="title_activity_admin_console">AdminConsoleActivity</string>
+    <string name="title_activity_user_management">UserManagementActivity</string>
 
 </resources>

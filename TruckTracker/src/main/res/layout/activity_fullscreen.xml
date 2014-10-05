@@ -17,12 +17,13 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="number"
+        android:inputType="text"
         android:ems="10"
         android:id="@+id/editEquipment"
         android:editable="true"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_alignLeft="@+id/textView3" />
+        android:textColor="#ff2d27ff"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -46,10 +47,12 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="2 km to Chicago"
-        android:id="@+id/textView3"
+        android:id="@+id/taskDesc"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="72dp" />
+        android:layout_marginTop="72dp"
+        android:typeface="sans"
+        android:textColor="@android:color/holo_red_dark" />
 
     <Button
         android:layout_width="wrap_content"
@@ -65,7 +68,10 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/bookingValue"
-        android:layout_alignTop="@+id/textView2"
-        android:layout_alignLeft="@+id/editEquipment" />
+        android:textColor="#ff2628ff"
+        android:textStyle="bold"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

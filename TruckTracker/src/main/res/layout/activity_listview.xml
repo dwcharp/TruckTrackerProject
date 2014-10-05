@@ -12,7 +12,6 @@
         android:layout_height="26dip"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_toRightOf="@id/icon"
         android:ellipsize="marquee"
         android:singleLine="true"
         android:text="Loading_Point"

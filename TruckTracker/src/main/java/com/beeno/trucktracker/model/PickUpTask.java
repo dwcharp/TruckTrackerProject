@@ -11,9 +11,14 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
 @DynamoDBTable(tableName="Task")
 public class PickUpTask {
-    final private String loadingPoint;
-    final private String Booking_Number;
-    private String equipmentNumber;
+     private String loadingPoint;
+     private String Booking_Number;
+     private String equipmentNumber;
+
+
+    private String userId;
+
+    public PickUpTask(){}
 
     public PickUpTask(String loadingPoint, String bookingNumber) {
         this.loadingPoint = loadingPoint;
@@ -26,10 +31,19 @@ public class PickUpTask {
         this.loadingPoint = loadingPoint;
     }
 
+
+    public PickUpTask(String  equipmentNumber, String bookingNumber, String loadingPoint, String userId) {
+        this.equipmentNumber = equipmentNumber;
+        this.Booking_Number = bookingNumber;
+        this.loadingPoint = loadingPoint;
+        this.userId = userId;
+    }
+
     @DynamoDBHashKey(attributeName = "Booking_Number")
     public String getBookingNumber() {
         return  Booking_Number;
     }
+    public void setBookingNumber(String bookNum) { Booking_Number = bookNum; }
 
     @DynamoDBAttribute(attributeName = "Equipment_Number")
     public String getEquipmentNumber() {
@@ -41,5 +55,9 @@ public class PickUpTask {
     public String getLoadingPoint() {
         return  loadingPoint;
     }
+    public void setLoadingPoint(String lPoint) {loadingPoint = lPoint;}
 
+    @DynamoDBAttribute(attributeName = "User_ID")
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = userId; }
 }

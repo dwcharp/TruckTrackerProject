@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 
 /**
@@ -22,8 +22,10 @@ import android.widget.TextView;
  */
 public class TaskDescriptionActivity extends Activity {
     private EditText equipmentNumberText;
-    private TextView bookingNumberText;
+    private TextView bookingNumberView;
+    private TextView taskDescView;
     private String bookingNumberValue;
+    private String taskDescValue;
     private Button saveButton;
 
     @Override
@@ -33,10 +35,13 @@ public class TaskDescriptionActivity extends Activity {
         Intent intent = getIntent();
 
         bookingNumberValue  = intent.getStringExtra("bookingNumber");
+        taskDescValue = intent.getStringExtra("taskDesc");
         equipmentNumberText = (EditText) findViewById(R.id.editEquipment);
-        bookingNumberText = (TextView) findViewById(R.id.bookingValue);
+        bookingNumberView = (TextView) findViewById(R.id.bookingValue);
+        taskDescView = (TextView) findViewById(R.id.taskDesc);
         saveButton = (Button) findViewById(R.id.save_details_button);
-        bookingNumberText.setText(bookingNumberValue);
+        bookingNumberView.setText(bookingNumberValue);
+        taskDescView.setText(taskDescValue);
 
         setUpOnClickListeners();
     }
@@ -53,10 +58,12 @@ public class TaskDescriptionActivity extends Activity {
             public void onClick(View view) {
                 String eNumber = equipmentNumberText.getText().toString();
                 if(! ("".equals(eNumber))) {
-                    new DynamoDBHelper.DynamoAddToTableTask(new PickUpTask(eNumber, bookingNumberValue, null)).execute();
+                    DynamoDBHelper.DynamoExeuteAddToTableAction action = new DynamoDBHelper.DynamoExeuteAddToTableAction();
+                    action.pickUpTask = new PickUpTask(eNumber, bookingNumberValue, "N/A", "Beeno");
+                    new DynamoDBHelper.DynamoTableTask(action).execute();
                 }
                  else {
-                    //pop up a toast
+                    Toast.makeText(getApplicationContext(), "The Equipment Number needs to be filled out !", Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -17,18 +17,18 @@ android {
     buildToolsVersion '19.1.0'
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion 11
         targetSdkVersion 19
     }
 }
 
 dependencies {
-    compile 'com.android.support:appcompat-v7:19.0.0'
-    compile 'com.android.support:support-v4:19.0.0'
     compile files('/libs/aws-android-sdk-2.1.1-core.jar')
     compile files('/libs/aws-android-sdk-2.1.1-ddb-mapper.jar')
     compile files('/libs/aws-android-sdk-2.1.1-ddb.jar')
     compile files('libs/aws-android-sdk-2.1.1-core.jar')
     compile files('libs/aws-android-sdk-2.1.1-ddb.jar')
     compile files('libs/aws-android-sdk-2.1.1-ddb-mapper.jar')
+    compile 'com.android.support:appcompat-v7:20.0.0'
+    compile 'com.android.support:support-v4:20.0.0'
 }

@@ -16,6 +16,10 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.beeno.trucktracker.amazon.AmazonUtil;
+import com.beeno.trucktracker.amazon.DynamoDBHelper;
+import com.beeno.trucktracker.model.User;
+
 /**
  * Activity which displays a login screen to the user, offering registration as
  * well.
@@ -52,7 +56,6 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_login);
-
         // Set up the login form.
         mUserName = getIntent().getStringExtra(USER_NAME);
         mUserNameView = (EditText) findViewById(R.id.userName);
@@ -200,11 +203,11 @@ public class LoginActivity extends Activity {
                 return false;
             }
 
-            if(mUserName.equals("Beeno") && mPassword.equals("password")) {
-                return true;
-            }
+            AmazonUtil.setCognitoProvider(getApplicationContext());
+            DynamoDBHelper.initDbClient();
 
-            return false;
+            return DynamoDBHelper.CheckUserCredits(new User(mUserName, mPassword));
+
         }
 
         @Override
