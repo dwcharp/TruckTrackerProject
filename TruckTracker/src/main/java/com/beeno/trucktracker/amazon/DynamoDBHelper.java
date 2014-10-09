@@ -45,6 +45,8 @@ public class DynamoDBHelper {
         public void dynamoExecuteAction();
     }
 
+
+    /*Pull all the task for the given user*/
     public static class DynamoDbGetUsersTaskAction implements DynamoDbAction {
         private String userId;
 
@@ -77,7 +79,42 @@ public class DynamoDBHelper {
             return tasks;
         }
 
-        public void setUserId(String id) {this.userId = id;}
+    }
+
+
+
+
+    public static class DynamoDbGetAllTaskAction implements DynamoDbAction {
+        private List<PickUpTask> pickUpTasks;
+
+        public DynamoDbGetAllTaskAction(List<PickUpTask> pickUpTasks) {
+            this.pickUpTasks = pickUpTasks;
+        }
+
+        public void dynamoExecuteAction() {
+            getPickupTasks();
+        }
+
+        public void getPickupTasks() {
+
+            Map<String, Condition> key = new HashMap<String, Condition>();
+            DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
+
+            Condition KeyCondition = new Condition()
+                    .withComparisonOperator(ComparisonOperator.BETWEEN.toString())
+                    //caps breaks here
+                    .withAttributeValueList(new AttributeValue().withS("a"), new AttributeValue().withS("z"));
+            scanExpression.addFilterCondition("User_ID", KeyCondition);
+
+            try {
+                //add to list given by activity
+                List<PickUpTask> pickUpTasks1 = mapper.scan(PickUpTask.class, scanExpression);
+                pickUpTasks.addAll(pickUpTasks1);
+                this.pickUpTasks = null;
+            } catch (Exception e) {
+                e.toString();
+            }
+        }
     }
 
 
@@ -92,6 +129,43 @@ public class DynamoDBHelper {
         }
     }
 
+
+
+    /*Add a new user to the table*/
+    public static class DynamoExecuteCreateUserAction implements DynamoDbAction {
+        public User user;
+
+        @Override
+        public void dynamoExecuteAction() {
+            try {
+                //add check to see if user exist
+                mapper.save(user);
+            } catch (Exception e) {
+                e.toString();
+            }
+        }
+    }
+
+    /*Add a new task to the tasks table*/
+
+    public static class DynamoExecuteCreateTaskAction implements DynamoDbAction {
+        PickUpTask pickUpTask;
+        public DynamoExecuteCreateTaskAction(PickUpTask pickUpTask) {
+            this.pickUpTask = pickUpTask;
+        }
+        @Override
+        public void dynamoExecuteAction() {
+            try {
+                mapper.save(pickUpTask);
+            } catch (Exception e) {
+                e.toString();
+            }
+        }
+    }
+
+
+
+    /*Check to see if the user is valid*/
     public static boolean CheckUserCredits(User user) {
         Map<String, Condition> key = new HashMap<String, Condition>();
         DynamoDBScanExpression scanExpression = new DynamoDBScanExpression();
@@ -112,35 +186,5 @@ public class DynamoDBHelper {
         }
         return  false;
 
-    }
-
-
-    public static class DynamoExecuteCreateUserAction implements DynamoDbAction {
-        public User user;
-
-        @Override
-        public void dynamoExecuteAction() {
-            try {
-                //add check to see if user exist
-                mapper.save(user);
-            } catch (Exception e) {
-                e.toString();
-            }
-        }
-    }
-
-    public static class DynamoExecuteCreateTaskAction implements DynamoDbAction {
-        PickUpTask pickUpTask;
-        public DynamoExecuteCreateTaskAction(PickUpTask pickUpTask) {
-            this.pickUpTask = pickUpTask;
-        }
-        @Override
-        public void dynamoExecuteAction() {
-            try {
-                mapper.save(pickUpTask);
-            } catch (Exception e) {
-                e.toString();
-            }
-        }
     }
 }

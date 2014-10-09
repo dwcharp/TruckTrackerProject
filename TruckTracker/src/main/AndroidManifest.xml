@@ -67,6 +67,10 @@
             android:name=".activity.admin.task.TaskManagementActivity"
             android:label="@string/title_activity_task_management" >
         </activity>
+        <activity
+            android:name=".activity.admin.task.PickupTaskViewActivity"
+            android:label="@string/title_activity_pickup_task_view" >
+        </activity>
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

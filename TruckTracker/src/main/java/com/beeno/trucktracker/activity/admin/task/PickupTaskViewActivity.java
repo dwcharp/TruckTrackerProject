@@ -1,4 +1,4 @@
-package com.beeno.trucktracker.activity.user;
+package com.beeno.trucktracker.activity.admin.task;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -10,52 +10,47 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.beeno.trucktracker.R;
+import com.beeno.trucktracker.activity.user.TaskDescriptionActivity;
 import com.beeno.trucktracker.amazon.DynamoDBHelper;
 import com.beeno.trucktracker.model.dao.PickUpTask;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity {
+public class PickupTaskViewActivity extends ActionBarActivity {
+    private ArrayAdapter<String> mAdapter;
+    private ArrayList<String> rows = new ArrayList<String>();
+    private String[] taskStrings = {};
+    private List<PickUpTask> pickUpTasks;
 
-
-    ArrayList<String> rows = new ArrayList<String>();
-    ArrayAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        adapter = new ArrayAdapter<String>(this, R.layout.activity_listview,
+        setContentView(R.layout.activity_pickup_task_view);
+        pickUpTasks = new ArrayList<PickUpTask>();
+        ListView listView = (ListView)findViewById(R.id.admin_view_task);
+        mAdapter = new ArrayAdapter<String>(getApplicationContext(),  R.layout.activity_listview,
                 R.id.loading_point_label, rows);
-        new InitAmazonAWSTask().execute();
-
-        ListView listView = (ListView) findViewById(R.id.country_list);
-        listView.setAdapter(adapter);
+        mAdapter.addAll(taskStrings);
+        listView.setAdapter(mAdapter);
+        updateListView();
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(getApplicationContext(), TaskDescriptionActivity.class);
-                CharSequence text = rows.get(i);
-                Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
-                intent.putExtra("taskDesc", "2Km to Chicago");
-                intent.putExtra("bookingNumber", rows.get(i));
                 startActivity(intent);
             }
         });
-
-
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.pickup_task_view, menu);
         return true;
     }
 
@@ -64,31 +59,32 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            case R.id.action_settings:
-                return true;
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    public  class InitAmazonAWSTask extends AsyncTask<Void, Void, Void> {
+    private void updateListView() {
+        new UpdateListView().execute();
+    }
 
-        List<PickUpTask> tasks;
+
+    public  class UpdateListView extends AsyncTask<Void, Void, Void> {
         public Void doInBackground(Void...voids) {
-//            AmazonUtil.setCognitoProvider(getApplicationContext());
-//            DynamoDBHelper.initDbClient();
-            tasks = new DynamoDBHelper.DynamoDbGetUsersTaskAction("beeno").getPickupTaskForUser();
+            new DynamoDBHelper.DynamoDbGetAllTaskAction(pickUpTasks).dynamoExecuteAction();
+            //store these task locally
             return null;
         }
 
-
         public void onPostExecute(Void result ) {
-            adapter.clear();
-            for(PickUpTask task : tasks) {
-               adapter.add(task.getBookingNumber());
+            mAdapter.clear();
+            for (PickUpTask task : pickUpTasks) {
+                mAdapter.add(task.getBookingNumber());
             }
-            adapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
+
         }
     }
-
 }
