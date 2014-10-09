@@ -1,4 +1,4 @@
-package com.beeno.trucktracker;
+package com.beeno.trucktracker.activity.admin;
 
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
@@ -10,7 +10,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.beeno.trucktracker.model.AdminConsoleItems;
+import com.beeno.trucktracker.R;
+import com.beeno.trucktracker.model.admin.AdminConsoleItems;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,7 @@ public class AdminConsoleActivity extends ActionBarActivity {
                 startActivity(intent);
             }
         });
+
     }
 
 

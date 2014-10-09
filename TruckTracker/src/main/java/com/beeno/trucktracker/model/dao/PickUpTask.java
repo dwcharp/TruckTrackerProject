@@ -1,4 +1,4 @@
-package com.beeno.trucktracker.model;
+package com.beeno.trucktracker.model.dao;
 
 
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribute;
@@ -25,7 +25,7 @@ public class PickUpTask {
         this.Booking_Number = bookingNumber;
     }
 
-    public PickUpTask(String  equipmentNumber, String bookingNumber, String loadingPoint) {
+    public PickUpTask(String equipmentNumber, String bookingNumber, String loadingPoint) {
         this.equipmentNumber = equipmentNumber;
         this.Booking_Number = bookingNumber;
         this.loadingPoint = loadingPoint;
@@ -38,6 +38,7 @@ public class PickUpTask {
         this.loadingPoint = loadingPoint;
         this.userId = userId;
     }
+
 
     @DynamoDBHashKey(attributeName = "Booking_Number")
     public String getBookingNumber() {

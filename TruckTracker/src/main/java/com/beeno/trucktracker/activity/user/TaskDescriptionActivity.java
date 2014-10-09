@@ -1,7 +1,8 @@
-package com.beeno.trucktracker;
+package com.beeno.trucktracker.activity.user;
 
+import com.beeno.trucktracker.R;
 import com.beeno.trucktracker.amazon.DynamoDBHelper;
-import com.beeno.trucktracker.model.PickUpTask;
+import com.beeno.trucktracker.model.dao.PickUpTask;
 import com.beeno.trucktracker.util.SystemUiHider;
 
 import android.app.Activity;
@@ -58,7 +59,7 @@ public class TaskDescriptionActivity extends Activity {
             public void onClick(View view) {
                 String eNumber = equipmentNumberText.getText().toString();
                 if(! ("".equals(eNumber))) {
-                    DynamoDBHelper.DynamoExeuteAddToTableAction action = new DynamoDBHelper.DynamoExeuteAddToTableAction();
+                    DynamoDBHelper.DynamoExecuteAddToTableAction action = new DynamoDBHelper.DynamoExecuteAddToTableAction();
                     action.pickUpTask = new PickUpTask(eNumber, bookingNumberValue, "N/A", "Beeno");
                     new DynamoDBHelper.DynamoTableTask(action).execute();
                 }

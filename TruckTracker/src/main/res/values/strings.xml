@@ -19,5 +19,7 @@
     <string name="create_User">Create User</string>
     <string name="title_activity_admin_console">AdminConsoleActivity</string>
     <string name="title_activity_user_management">UserManagementActivity</string>
+    <string name="title_activity_create_pick_up_task">CreatePickUpTaskActivity</string>
+    <string name="title_activity_task_management">TaskManagementActivity</string>
 
 </resources>

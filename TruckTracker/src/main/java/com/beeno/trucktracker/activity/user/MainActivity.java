@@ -1,25 +1,20 @@
-package com.beeno.trucktracker;
+package com.beeno.trucktracker.activity.user;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.beeno.trucktracker.amazon.AmazonUtil;
+import com.beeno.trucktracker.R;
 import com.beeno.trucktracker.amazon.DynamoDBHelper;
-import com.beeno.trucktracker.model.PickUpTask;
+import com.beeno.trucktracker.model.dao.PickUpTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,9 +75,11 @@ public class MainActivity extends ActionBarActivity {
 
         List<PickUpTask> tasks;
         public Void doInBackground(Void...voids) {
-            AmazonUtil.setCognitoProvider(getApplicationContext());
-            DynamoDBHelper.initDbClient();
-            tasks = new DynamoDBHelper.DynamoDbGetUsersTaskAction("Beeno").getPickupTaskForUser();
+//            AmazonUtil.setCognitoProvider(getApplicationContext());
+//            DynamoDBHelper.initDbClient();
+            //TODO: Save User name in prefs
+
+            tasks = new DynamoDBHelper.DynamoDbGetUsersTaskAction("beeno").getPickupTaskForUser();
             return null;
         }
 

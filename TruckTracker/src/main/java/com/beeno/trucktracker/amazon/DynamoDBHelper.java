@@ -7,8 +7,8 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
-import com.beeno.trucktracker.model.PickUpTask;
-import com.beeno.trucktracker.model.User;
+import com.beeno.trucktracker.model.dao.PickUpTask;
+import com.beeno.trucktracker.model.dao.User;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,10 +81,10 @@ public class DynamoDBHelper {
     }
 
 
-    public static class DynamoExeuteAddToTableAction implements DynamoDbAction {
+    public static class DynamoExecuteAddToTableAction implements DynamoDbAction {
         public PickUpTask pickUpTask;
         public void dynamoExecuteAction() {
-            try{
+            try {
                 mapper.save(pickUpTask);
             } catch (Exception e) {
                 e.toString();
@@ -98,14 +98,49 @@ public class DynamoDBHelper {
 
         Condition KeyCondition = new Condition()
                 .withComparisonOperator(ComparisonOperator.EQ.toString())
-                .withAttributeValueList(new AttributeValue().withS(user.getUserName()));
+                .withAttributeValueList(new AttributeValue().withS(user.getUserId()));
         scanExpression.addFilterCondition("User_ID", KeyCondition);
-        List<User> userFromDB = mapper.scan(User.class, scanExpression);
-        if( !userFromDB.isEmpty()) {
+        List<User> userFromDB = null;
+        try {
+            userFromDB = mapper.scan(User.class, scanExpression);
+        } catch ( Exception e) {
+            e.toString();
+        }
+
+        if(!userFromDB.isEmpty()) {
             return user.getPassword().equals(userFromDB.get(0).getPassword());
         }
         return  false;
 
     }
 
+
+    public static class DynamoExecuteCreateUserAction implements DynamoDbAction {
+        public User user;
+
+        @Override
+        public void dynamoExecuteAction() {
+            try {
+                //add check to see if user exist
+                mapper.save(user);
+            } catch (Exception e) {
+                e.toString();
+            }
+        }
+    }
+
+    public static class DynamoExecuteCreateTaskAction implements DynamoDbAction {
+        PickUpTask pickUpTask;
+        public DynamoExecuteCreateTaskAction(PickUpTask pickUpTask) {
+            this.pickUpTask = pickUpTask;
+        }
+        @Override
+        public void dynamoExecuteAction() {
+            try {
+                mapper.save(pickUpTask);
+            } catch (Exception e) {
+                e.toString();
+            }
+        }
+    }
 }

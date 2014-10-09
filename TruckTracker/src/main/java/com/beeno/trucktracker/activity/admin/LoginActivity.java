@@ -1,4 +1,4 @@
-package com.beeno.trucktracker;
+package com.beeno.trucktracker.activity.admin;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -16,9 +16,11 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.beeno.trucktracker.R;
+import com.beeno.trucktracker.activity.admin.user.UserManagementActivity;
 import com.beeno.trucktracker.amazon.AmazonUtil;
 import com.beeno.trucktracker.amazon.DynamoDBHelper;
-import com.beeno.trucktracker.model.User;
+import com.beeno.trucktracker.model.dao.User;
 
 /**
  * Activity which displays a login screen to the user, offering registration as
@@ -33,7 +35,7 @@ public class LoginActivity extends Activity {
     /**
      * The default email to populate the email field with.
      */
-    public static final String USER_NAME = "Beeno";
+    public static final String USER_NAME = "beeno";
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -216,7 +218,7 @@ public class LoginActivity extends Activity {
             showProgress(false);
 
             if (success) {
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                Intent intent = new Intent(getBaseContext(), AdminConsoleActivity.class);
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));

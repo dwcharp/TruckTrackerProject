@@ -1,8 +1,8 @@
-package com.beeno.trucktracker.model;
+package com.beeno.trucktracker.model.admin;
 
 import android.util.SparseArray;
 
-import com.beeno.trucktracker.CreateUserActivity;
+import com.beeno.trucktracker.activity.admin.user.CreateUserActivity;
 
 /**
  * Created by dcharp on 10/4/14.
