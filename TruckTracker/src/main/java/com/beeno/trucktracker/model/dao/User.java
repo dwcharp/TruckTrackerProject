@@ -11,6 +11,9 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 @DynamoDBTable(tableName = "Users")
 public class User {
 
+    public static final int ADMIN = 0;
+    public static final int WORKER = 1;
+
     private String password;
     private String userName;
 

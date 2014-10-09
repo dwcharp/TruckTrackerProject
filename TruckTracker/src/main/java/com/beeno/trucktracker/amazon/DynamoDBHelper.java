@@ -182,6 +182,7 @@ public class DynamoDBHelper {
         }
 
         if(!userFromDB.isEmpty()) {
+            user.setRole(userFromDB.get(0).getRole());
             return user.getPassword().equals(userFromDB.get(0).getPassword());
         }
         return  false;

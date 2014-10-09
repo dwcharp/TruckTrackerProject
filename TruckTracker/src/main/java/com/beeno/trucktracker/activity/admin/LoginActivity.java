@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 
 import com.beeno.trucktracker.R;
 import com.beeno.trucktracker.activity.admin.user.UserManagementActivity;
+import com.beeno.trucktracker.activity.user.MainActivity;
 import com.beeno.trucktracker.amazon.AmazonUtil;
 import com.beeno.trucktracker.amazon.DynamoDBHelper;
 import com.beeno.trucktracker.model.dao.User;
@@ -27,15 +29,8 @@ import com.beeno.trucktracker.model.dao.User;
  * well.
  */
 public class LoginActivity extends Activity {
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-
-    /**
-     * The default email to populate the email field with.
-     */
     public static final String USER_NAME = "beeno";
+    private final Context context = this;
 
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
@@ -194,22 +189,14 @@ public class LoginActivity extends Activity {
      * the user.
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+        User user;
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
 
             AmazonUtil.setCognitoProvider(getApplicationContext());
             DynamoDBHelper.initDbClient();
-
-            return DynamoDBHelper.CheckUserCredits(new User(mUserName, mPassword));
-
+            user = new User(mUserName, mPassword);
+            return DynamoDBHelper.CheckUserCredits(user);
         }
 
         @Override
@@ -218,7 +205,12 @@ public class LoginActivity extends Activity {
             showProgress(false);
 
             if (success) {
-                Intent intent = new Intent(getBaseContext(), AdminConsoleActivity.class);
+                Intent intent;
+                if(user.getRole() == User.ADMIN){
+                    intent = new Intent(context, AdminConsoleActivity.class);
+                } else {
+                    intent = new Intent(context, MainActivity.class);
+                }
                 startActivity(intent);
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
