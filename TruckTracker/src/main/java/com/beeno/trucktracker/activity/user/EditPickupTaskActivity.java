@@ -21,22 +21,22 @@ import android.widget.Toast;
  *
  * @see SystemUiHider
  */
-public class TaskDescriptionActivity extends Activity {
+public class EditPickupTaskActivity extends Activity {
     private EditText equipmentNumberText;
     private TextView bookingNumberView;
     private TextView taskDescView;
     private String bookingNumberValue;
     private String taskDescValue;
     private Button saveButton;
-
+    private PickUpTask pickUpTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fullscreen);
+        setContentView(R.layout.edit_pickup_task_screen);
         Intent intent = getIntent();
-
-        bookingNumberValue  = intent.getStringExtra("bookingNumber");
-        taskDescValue = intent.getStringExtra("taskDesc");
+        pickUpTask = (PickUpTask) intent.getSerializableExtra("PICK_UP_TASK");
+        bookingNumberValue  = pickUpTask.getBookingNumber();
+        taskDescValue = pickUpTask.getLoadingPoint();
         equipmentNumberText = (EditText) findViewById(R.id.editEquipment);
         bookingNumberView = (TextView) findViewById(R.id.bookingValue);
         taskDescView = (TextView) findViewById(R.id.taskDesc);
@@ -59,8 +59,9 @@ public class TaskDescriptionActivity extends Activity {
             public void onClick(View view) {
                 String eNumber = equipmentNumberText.getText().toString();
                 if(! ("".equals(eNumber))) {
-                    DynamoDBHelper.DynamoExecuteAddToTableAction action = new DynamoDBHelper.DynamoExecuteAddToTableAction();
-                    action.pickUpTask = new PickUpTask(eNumber, bookingNumberValue, "N/A", "Beeno");
+                    pickUpTask.setEquipmentNumber(eNumber);
+                    DynamoDBHelper.DynamoUpdatePickUpTaskAction action =
+                            new DynamoDBHelper.DynamoUpdatePickUpTaskAction(pickUpTask);
                     new DynamoDBHelper.DynamoTableTask(action).execute();
                 }
                  else {

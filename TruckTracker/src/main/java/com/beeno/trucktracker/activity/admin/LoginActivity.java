@@ -18,8 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.beeno.trucktracker.R;
-import com.beeno.trucktracker.activity.admin.user.UserManagementActivity;
-import com.beeno.trucktracker.activity.user.MainActivity;
+import com.beeno.trucktracker.activity.user.UserMainActivity;
 import com.beeno.trucktracker.amazon.AmazonUtil;
 import com.beeno.trucktracker.amazon.DynamoDBHelper;
 import com.beeno.trucktracker.model.dao.User;
@@ -209,7 +208,7 @@ public class LoginActivity extends Activity {
                 if(user.getRole() == User.ADMIN){
                     intent = new Intent(context, AdminConsoleActivity.class);
                 } else {
-                    intent = new Intent(context, MainActivity.class);
+                    intent = new Intent(context, UserMainActivity.class);
                 }
                 startActivity(intent);
             } else {

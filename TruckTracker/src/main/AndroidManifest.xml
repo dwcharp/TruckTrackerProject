@@ -14,7 +14,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".activity.user.MainActivity"
+            android:name=".activity.user.UserMainActivity"
             android:label="@string/app_name" >
 
             <!-- <intent-filter> -->
@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.user.TaskDescriptionActivity"
+            android:name=".activity.user.EditPickupTaskActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_task_description"
             android:theme="@style/FullscreenTheme" >

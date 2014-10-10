@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.beeno.trucktracker.R;
-import com.beeno.trucktracker.activity.user.TaskDescriptionActivity;
+import com.beeno.trucktracker.activity.user.EditPickupTaskActivity;
 import com.beeno.trucktracker.amazon.DynamoDBHelper;
 import com.beeno.trucktracker.model.dao.PickUpTask;
 
@@ -40,7 +40,8 @@ public class PickupTaskViewActivity extends ActionBarActivity {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getApplicationContext(), TaskDescriptionActivity.class);
+                Intent intent = new Intent(getApplicationContext(), EditPickupTaskActivity.class);
+                intent.putExtra(PickUpTask.PICK_UP_KEY, pickUpTasks.get(i));
                 startActivity(intent);
             }
         });

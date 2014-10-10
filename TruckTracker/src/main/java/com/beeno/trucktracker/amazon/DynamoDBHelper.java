@@ -16,9 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 
-/**
- * Created by dcharp on 10/2/14.
- */
+
 public class DynamoDBHelper {
     private static AmazonDynamoDBClient dbClient;
     private static  DynamoDBMapper mapper;
@@ -118,8 +116,11 @@ public class DynamoDBHelper {
     }
 
 
-    public static class DynamoExecuteAddToTableAction implements DynamoDbAction {
-        public PickUpTask pickUpTask;
+    public static class DynamoUpdatePickUpTaskAction implements DynamoDbAction {
+        private PickUpTask pickUpTask;
+        public DynamoUpdatePickUpTaskAction(PickUpTask pt) {
+            this.pickUpTask = pt;
+        }
         public void dynamoExecuteAction() {
             try {
                 mapper.save(pickUpTask);

@@ -5,16 +5,18 @@ import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBAttribut
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBHashKey;
 import com.amazonaws.mobileconnectors.dynamodbv2.dynamodbmapper.DynamoDBTable;
 
+import java.io.Serializable;
+
 /**
  * Created by dcharp on 10/1/14.
  */
 
 @DynamoDBTable(tableName="Task")
-public class PickUpTask {
+public class PickUpTask implements Serializable{
      private String loadingPoint;
      private String Booking_Number;
      private String equipmentNumber;
-
+     public static final String PICK_UP_KEY = "PICK_UP_TASK";
 
     private String userId;
 
